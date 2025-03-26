@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
 using API.Authorization._Features_.Internal;
-using EnergyOrigin.IntegrationEvents.Events.OrganizationWhitelisted;
 using EnergyOrigin.Domain.ValueObjects;
+using EnergyOrigin.IntegrationEvents.Events.OrganizationWhitelisted;
 using MassTransit;
 using MediatR;
 
-namespace API.Authorization._Features_.Events;
+namespace API.Authorization.Events;
 
 public class OrganizationWhitelistedIntegrationEventHandler : IConsumer<OrganizationWhitelistedIntegrationEvent>
 {

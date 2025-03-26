@@ -1,5 +1,5 @@
-using API.Authorization._Features_.Events;
 using API.Authorization._Features_.Internal;
+using API.Authorization.Events;
 using EnergyOrigin.IntegrationEvents.Events.OrganizationWhitelisted;
 using MassTransit.Testing;
 using MediatR;
