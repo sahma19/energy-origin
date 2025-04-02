@@ -22,6 +22,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Identity.Web;
 using OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +58,15 @@ builder.Services.AddOptions<B2COptions>().BindConfiguration(B2COptions.Prefix).V
     .ValidateOnStart();
 var b2COptions = builder.Configuration.GetSection(B2COptions.Prefix).Get<B2COptions>()!;
 builder.Services.AddB2C(b2COptions);
+
+builder.Services.AddAuthentication()
+    .AddMicrosoftIdentityWebApp(builder.Configuration)
+    .EnableTokenAcquisitionToCallDownstreamApi()
+    .AddMicrosoftGraph(options =>
+    {
+        options.Scopes = "https://graph.microsoft.com/.default";
+    })
+    .AddInMemoryTokenCaches();
 
 builder.Services.AddHttpContextAccessor();
 
@@ -102,6 +112,8 @@ builder.Services.AddHttpClient<IMitIDService, MitIDService>((serviceProvider, cl
     var options = serviceProvider.GetRequiredService<IOptions<MitIDOptions>>().Value;
     client.BaseAddress = options.URI;
 });
+
+builder.Services.AddScoped<ICredentialsService, CredentialsService>();
 
 var app = builder.Build();
 
