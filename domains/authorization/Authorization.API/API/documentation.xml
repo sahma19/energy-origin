@@ -31,6 +31,16 @@
             <param name="consentId">The ID of the consent to delete.</param>
             <returns>No content if the deletion was successful, Not Found if the consent was not found.</returns>
         </member>
+        <member name="M:API.Authorization.Controllers.CredentialController.CreateCredential(API.Authorization.Controllers.CreateCredentialRequest)">
+            <summary>
+            Creates credentials for an App Registration in Azure B2C.
+            </summary>
+        </member>
+        <member name="M:API.Authorization.Controllers.CredentialController.GetCredentials(API.Authorization.Controllers.GetCredentialsRequest)">
+             <summary>
+            
+             </summary>
+        </member>
         <member name="M:API.Authorization.Controllers.Internal.AdminController.CreateClient(API.Authorization.Controllers.CreateClientRequest)">
             <summary>
             Create Client.
