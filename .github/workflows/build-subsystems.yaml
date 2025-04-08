@@ -34,6 +34,16 @@ jobs:
         with:
           solution: domains/EnergyTrackAndTrace.sln
 
+  e2e-test:
+    needs: setup
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/dotnet-e2e-test
+        with:
+          solution: domains/EnergyTrackAndTrace.sln
+
   build-admin-portal:
     needs: test
     uses: ./.github/workflows/build-admin-portal.yaml
