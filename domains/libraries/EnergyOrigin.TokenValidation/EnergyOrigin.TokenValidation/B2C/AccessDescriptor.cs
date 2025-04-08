@@ -19,6 +19,12 @@ public class AccessDescriptor
         return isInternalClient || isOwnOrganization || isAuthorizedToOrganization;
     }
 
+    // TODO - Write tests
+    public bool IsExternalClient()
+    {
+        return _identity.SubjectType == SubjectType.External;
+    }
+
     public bool IsAuthorizedToOrganizations(List<Guid> organizationIds)
     {
         return organizationIds.TrueForAll(IsAuthorizedToOrganization);

@@ -123,16 +123,12 @@ public record UserinfoResponse(
     [property: JsonPropertyName("org_name")] string OrgName
 );
 
-public record CreateCredentialRequest(Guid ApplicationId);
-
 public record CreateCredentialResponse(
     string? Hint,
     Guid KeyId,
     DateTimeOffset? StartDateTime,
     DateTimeOffset? EndDateTime,
     string? Secret);
-
-public record GetCredentialsRequest(Guid ApplicationId);
 
 public record GetCredentialsResponse(
     string? Hint,

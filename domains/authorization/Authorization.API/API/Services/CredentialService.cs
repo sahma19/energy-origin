@@ -20,56 +20,61 @@ public interface ICredentialService
 }
 
 // TODO: An organization can have multiple app registrations
-// TODO: Only allow to change client secret for the app reg that is tied to the access token or all app regs for the organization?
+// TODO: Validate access to organization
 public class CredentialService(GraphServiceClient graphServiceClient) : ICredentialService
 {
+    private const string TooManyPasswordsErrorCode = "TooManyAppPasswords";
+
     public async Task<IEnumerable<ClientCredential>> GetCredentials(Guid applicationId,
         CancellationToken cancellationToken)
     {
-        var application = await GetApplication(applicationId, cancellationToken);
-
-        if (application?.PasswordCredentials is null)
+        try
         {
-            throw new ResourceNotFoundException(applicationId.ToString());
-        }
+            var application = await GetApplication(applicationId, cancellationToken);
+            if (application.PasswordCredentials is null)
+            {
+                return new List<ClientCredential>();
+            }
 
-        var clientCredentials = new List<ClientCredential>();
-        foreach (var credential in application.PasswordCredentials)
+            var clientCredentials = new List<ClientCredential>();
+            foreach (var credential in application.PasswordCredentials)
+            {
+                if (credential.KeyId is null) continue;
+                clientCredentials.Add(ClientCredential.Create(credential.Hint, (Guid)credential.KeyId,
+                    credential.StartDateTime, credential.EndDateTime));
+            }
+
+            return clientCredentials;
+        }
+        catch (ODataError oDataError)
         {
-            if (credential.KeyId is null) continue;
-            clientCredentials.Add(ClientCredential.Create(credential.Hint, (Guid)credential.KeyId,
-                credential.StartDateTime, credential.EndDateTime));
+            throw new BusinessException("It was not possible to retrieve credentials.", oDataError);
         }
-
-        return clientCredentials;
     }
 
     public async Task<ClientCredential> CreateCredential(Guid applicationId, CancellationToken cancellationToken)
     {
         var application = await GetApplication(applicationId, cancellationToken);
-        if (application is null)
-        {
-            throw new ResourceNotFoundException(applicationId.ToString());
-        }
-
-        var body = new AddPasswordPostRequestBody
-        {
-            PasswordCredential = new PasswordCredential
-            {
-                DisplayName = "API Secret",
-                StartDateTime = DateTimeOffset.UtcNow,
-                EndDateTime = DateTimeOffset.UtcNow.AddYears(1)
-            }
-        };
 
         try
         {
+            var utcNow = DateTimeOffset.UtcNow;
+            var body = new AddPasswordPostRequestBody
+            {
+                PasswordCredential = new PasswordCredential
+                {
+                    DisplayName = "Client Secret",
+                    StartDateTime = utcNow,
+                    EndDateTime = utcNow.AddYears(1)
+                }
+            };
+
             var result = await graphServiceClient.Applications[application.Id].AddPassword
                 .PostAsync(body, cancellationToken: cancellationToken);
 
             if (result?.KeyId is null || result.SecretText is null)
             {
-                throw new BusinessException("Could not create credential for application");
+                throw new BusinessException("Could not create credential for client.");
             }
 
             return ClientCredential.Create(result.Hint, (Guid)result.KeyId,
@@ -78,7 +83,14 @@ public class CredentialService(GraphServiceClient graphServiceClient) : ICredent
         }
         catch (ODataError oDataError)
         {
-            throw new BusinessException("Could not create credential for application", oDataError);
+            if (oDataError.Error!.Code == TooManyPasswordsErrorCode)
+            {
+                throw new BusinessException(
+                    "Not allowed to add 3 credentials. You can only add a maximum of 2 credentials. Delete one of the existing credentials in order to add a new one.",
+                    oDataError);
+            }
+
+            throw new BusinessException("Could not create credential for client.", oDataError);
         }
     }
 
@@ -86,24 +98,37 @@ public class CredentialService(GraphServiceClient graphServiceClient) : ICredent
     {
         try
         {
+            var application = await GetApplication(applicationId, cancellationToken);
+            if (application.PasswordCredentials is null)
+            {
+                throw new ResourceNotFoundException(keyId.ToString());
+            }
+
             var requestBody = new RemovePasswordPostRequestBody
             {
                 KeyId = keyId
             };
 
-            await graphServiceClient.Applications[applicationId.ToString()].RemovePassword
+            await graphServiceClient.Applications[application.Id].RemovePassword
                 .PostAsync(requestBody, cancellationToken: cancellationToken);
         }
         catch (ODataError oDataError)
         {
-            throw new BusinessException("Could not delete credential for application", oDataError);
+            throw new BusinessException("Could not delete credential for client.", oDataError);
         }
     }
 
-    private async Task<Application?> GetApplication(Guid applicationId, CancellationToken cancellationToken)
+    private async Task<Application> GetApplication(Guid applicationId, CancellationToken cancellationToken)
     {
-        return await graphServiceClient
+        var application = await graphServiceClient
             .ApplicationsWithAppId(applicationId.ToString())
             .GetAsync(cancellationToken: cancellationToken);
+
+        if (application is null)
+        {
+            throw new ResourceNotFoundException(applicationId.ToString());
+        }
+
+        return application;
     }
 }

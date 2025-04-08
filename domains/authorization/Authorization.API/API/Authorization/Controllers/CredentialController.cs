@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,20 +16,25 @@ namespace API.Authorization.Controllers;
 [ApiController]
 [ApiVersion(ApiVersions.Version1)]
 [Authorize(Policy.FrontendOr3rdParty)]
-public class CredentialController(IMediator mediator) : ControllerBase
+[Route("api/authorization/clients/{clientId:guid}/credentials")]
+public class CredentialController(IMediator mediator, AccessDescriptor accessDescriptor) : ControllerBase
 {
     /// <summary>
-    /// Creates credentials for an App Registration in Azure B2C.
+    /// Creates a single credential for a Client.
     /// </summary>
     [HttpPost]
-    [Route("api/authorization/credentials/")]
     [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> CreateCredential([FromBody] CreateCredentialRequest request)
+    public async Task<ActionResult> CreateCredential([FromRoute] Guid clientId)
     {
-        var commandResult =
-            await mediator.Send(new CreateCredentialCommand(request.ApplicationId));
+        if (!accessDescriptor.IsExternalClient())
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
+        var commandResult = await mediator.Send(new CreateCredentialCommand(clientId));
 
         var response = new CreateCredentialResponse(commandResult.Hint, commandResult.KeyId,
             commandResult.StartDateTime, commandResult.EndDateTime, commandResult.Secret);
@@ -37,20 +43,46 @@ public class CredentialController(IMediator mediator) : ControllerBase
     }
 
     /// <summary>
-    ///
+    /// Gets all credentials for a Client.
     /// </summary>
     [HttpGet]
-    [Route("api/authorization/credentials/")]
     [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> GetCredentials([FromBody] GetCredentialsRequest request)
+    public async Task<ActionResult> GetCredentials([FromRoute] Guid clientId)
     {
-        var queryResult = await mediator.Send(new GetCredentialsQuery(request.ApplicationId));
+        if (!accessDescriptor.IsExternalClient())
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
+        var queryResult = await mediator.Send(new GetCredentialsQuery(clientId));
 
         var response = queryResult.Select(credential => new GetCredentialsResponse(credential.Hint, credential.KeyId,
             credential.StartDateTime, credential.EndDateTime)).ToList();
 
         return Ok(response);
+    }
+
+    /// <summary>
+    /// Deletes a single credential for a Client.
+    /// </summary>
+    [HttpDelete]
+    [Route("{keyId:guid}")]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> DeleteCredential([FromRoute] Guid clientId, [FromRoute] Guid keyId)
+    {
+        if (!accessDescriptor.IsExternalClient())
+        {
+            return StatusCode(StatusCodes.Status403Forbidden);
+        }
+
+        await mediator.Send(new DeleteCredentialCommand(clientId, keyId));
+
+        return Ok();
     }
 }
