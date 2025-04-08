@@ -1,5 +1,3 @@
-using System;
-
 namespace EnergyOrigin.TokenValidation.b2c;
 
 public class AccessDescriptor
@@ -20,9 +18,9 @@ public class AccessDescriptor
     }
 
     // TODO - Write tests
-    public bool IsExternalClient()
+    public bool IsExternalClientAuthorized()
     {
-        return _identity.SubjectType == SubjectType.External;
+        return _identity.SubjectType == SubjectType.External && _identity.OrganizationId != Guid.Empty;
     }
 
     public bool IsAuthorizedToOrganizations(List<Guid> organizationIds)

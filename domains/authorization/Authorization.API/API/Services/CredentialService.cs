@@ -19,8 +19,6 @@ public interface ICredentialService
     public Task DeleteCredential(Guid applicationId, Guid keyId, CancellationToken cancellationToken);
 }
 
-// TODO: An organization can have multiple app registrations
-// TODO: Validate access to organization
 public class CredentialService(GraphServiceClient graphServiceClient) : ICredentialService
 {
     private const string TooManyPasswordsErrorCode = "TooManyAppPasswords";
@@ -28,14 +26,14 @@ public class CredentialService(GraphServiceClient graphServiceClient) : ICredent
     public async Task<IEnumerable<ClientCredential>> GetCredentials(Guid applicationId,
         CancellationToken cancellationToken)
     {
+        var application = await GetApplication(applicationId, cancellationToken);
+        if (application.PasswordCredentials is null)
+        {
+            return new List<ClientCredential>();
+        }
+
         try
         {
-            var application = await GetApplication(applicationId, cancellationToken);
-            if (application.PasswordCredentials is null)
-            {
-                return new List<ClientCredential>();
-            }
-
             var clientCredentials = new List<ClientCredential>();
             foreach (var credential in application.PasswordCredentials)
             {
@@ -96,14 +94,14 @@ public class CredentialService(GraphServiceClient graphServiceClient) : ICredent
 
     public async Task DeleteCredential(Guid applicationId, Guid keyId, CancellationToken cancellationToken)
     {
+        var application = await GetApplication(applicationId, cancellationToken);
+        if (application.PasswordCredentials is null)
+        {
+            throw new ResourceNotFoundException(keyId.ToString());
+        }
+
         try
         {
-            var application = await GetApplication(applicationId, cancellationToken);
-            if (application.PasswordCredentials is null)
-            {
-                throw new ResourceNotFoundException(keyId.ToString());
-            }
-
             var requestBody = new RemovePasswordPostRequestBody
             {
                 KeyId = keyId
@@ -120,15 +118,22 @@ public class CredentialService(GraphServiceClient graphServiceClient) : ICredent
 
     private async Task<Application> GetApplication(Guid applicationId, CancellationToken cancellationToken)
     {
-        var application = await graphServiceClient
-            .ApplicationsWithAppId(applicationId.ToString())
-            .GetAsync(cancellationToken: cancellationToken);
-
-        if (application is null)
+        try
         {
-            throw new ResourceNotFoundException(applicationId.ToString());
-        }
+            var application = await graphServiceClient
+                .ApplicationsWithAppId(applicationId.ToString())
+                .GetAsync(cancellationToken: cancellationToken);
 
-        return application;
+            if (application is null)
+            {
+                throw new ResourceNotFoundException(applicationId.ToString());
+            }
+
+            return application;
+        }
+        catch (ODataError oDataError)
+        {
+            throw new ResourceNotFoundException(applicationId.ToString(), oDataError);
+        }
     }
 }

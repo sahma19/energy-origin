@@ -33,17 +33,17 @@
         </member>
         <member name="M:API.Authorization.Controllers.CredentialController.CreateCredential(System.Guid)">
             <summary>
-            Creates a single credential for a Client.
+            Creates a single credential for a client.
             </summary>
         </member>
         <member name="M:API.Authorization.Controllers.CredentialController.GetCredentials(System.Guid)">
             <summary>
-            Gets all credentials for a Client.
+            Gets all credentials for a client.
             </summary>
         </member>
         <member name="M:API.Authorization.Controllers.CredentialController.DeleteCredential(System.Guid,System.Guid)">
             <summary>
-            Deletes a single credential for a Client.
+            Deletes a single credential for a client.
             </summary>
         </member>
         <member name="M:API.Authorization.Controllers.Internal.AdminController.CreateClient(API.Authorization.Controllers.CreateClientRequest)">
