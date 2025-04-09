@@ -25,9 +25,9 @@ public class CredentialController(
 {
     [HttpPost]
     [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Create credential",
         Description = "Creates a single credential for a client"
@@ -50,9 +50,9 @@ public class CredentialController(
 
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Gets credentials",
         Description = "Gets all credentials for a client"
@@ -75,9 +75,9 @@ public class CredentialController(
     [HttpDelete]
     [Route("{keyId:guid}")]
     [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Deletes credential",
         Description = "Deletes a single credential for a client"
