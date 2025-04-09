@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace API.Authorization.Controllers;
 
@@ -22,14 +23,15 @@ public class CredentialController(
     AccessDescriptor accessDescriptor,
     IdentityDescriptor identityDescriptor) : ControllerBase
 {
-    /// <summary>
-    /// Creates a single credential for a client.
-    /// </summary>
     [HttpPost]
     [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerOperation(
+        Summary = "Create credential",
+        Description = "Creates a single credential for a client"
+    )]
     public async Task<ActionResult> CreateCredential([FromRoute] Guid clientId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
@@ -46,14 +48,15 @@ public class CredentialController(
         return Ok(response);
     }
 
-    /// <summary>
-    /// Gets all credentials for a client.
-    /// </summary>
     [HttpGet]
     [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerOperation(
+        Summary = "Gets credentials",
+        Description = "Gets all credentials for a client"
+    )]
     public async Task<ActionResult> GetCredentials([FromRoute] Guid clientId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
@@ -69,15 +72,16 @@ public class CredentialController(
         return Ok(response);
     }
 
-    /// <summary>
-    /// Deletes a single credential for a client.
-    /// </summary>
     [HttpDelete]
     [Route("{keyId:guid}")]
     [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [SwaggerOperation(
+        Summary = "Deletes credential",
+        Description = "Deletes a single credential for a client"
+    )]
     public async Task<ActionResult> DeleteCredential([FromRoute] Guid clientId, [FromRoute] Guid keyId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
