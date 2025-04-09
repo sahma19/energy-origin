@@ -14,7 +14,7 @@ public class DeleteCredentialCommandHandler(ICredentialService credentialService
     public async Task Handle(DeleteCredentialCommand command, CancellationToken cancellationToken)
     {
         var hasAccess = await clientRepository
-            .ExternalClientHasAccessToOrganization(command.ClientId, command.OrganizationId);
+            .ExternalClientHasAccessThroughOrganization(command.ClientId, command.OrganizationId);
 
         if (!hasAccess)
         {

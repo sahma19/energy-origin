@@ -8,12 +8,12 @@ namespace API.Repository;
 
 public interface IClientRepository : IGenericRepository<Client>
 {
-    Task<bool> ExternalClientHasAccessToOrganization(Guid clientId, Guid organizationId);
+    Task<bool> ExternalClientHasAccessThroughOrganization(Guid clientId, Guid organizationId);
 }
 
 public class ClientRepository(ApplicationDbContext context) : GenericRepository<Client>(context), IClientRepository
 {
-    public async Task<bool> ExternalClientHasAccessToOrganization(Guid clientId, Guid organizationId)
+    public async Task<bool> ExternalClientHasAccessThroughOrganization(Guid clientId, Guid organizationId)
     {
         var hasAccess = await Context.Clients.AnyAsync(c =>
             c.IdpClientId == IdpClientId.Create(clientId) && c.OrganizationId == organizationId &&

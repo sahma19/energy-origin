@@ -15,7 +15,7 @@ public class CreateCredentialCommandHandler(ICredentialService credentialService
         CancellationToken cancellationToken)
     {
         var hasAccess = await clientRepository
-            .ExternalClientHasAccessToOrganization(command.ClientId, command.OrganizationId);
+            .ExternalClientHasAccessThroughOrganization(command.ClientId, command.OrganizationId);
 
         if (!hasAccess)
         {

@@ -17,7 +17,7 @@ public class GetCredentialsQueryHandler(ICredentialService credentialService, IC
         CancellationToken cancellationToken)
     {
         var hasAccess = await clientRepository
-            .ExternalClientHasAccessToOrganization(request.ClientId, request.OrganizationId);
+            .ExternalClientHasAccessThroughOrganization(request.ClientId, request.OrganizationId);
 
         if (!hasAccess)
         {
