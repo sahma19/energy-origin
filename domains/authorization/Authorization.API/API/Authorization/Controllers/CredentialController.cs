@@ -74,15 +74,15 @@ public class CredentialController(
 
     [HttpDelete]
     [Route("{keyId:guid}")]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Deletes credential",
         Description = "Deletes a single credential for a client"
     )]
-    public async Task<ActionResult<IEnumerable<GetCredentialsResponse>>> DeleteCredential([FromRoute] Guid clientId, [FromRoute] Guid keyId)
+    public async Task<ActionResult> DeleteCredential([FromRoute] Guid clientId, [FromRoute] Guid keyId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
         {
