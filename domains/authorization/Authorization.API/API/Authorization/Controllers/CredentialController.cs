@@ -49,15 +49,15 @@ public class CredentialController(
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(IEnumerable<GetCredentialsResponse>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(GetCredentialsResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetCredentialsResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(GetCredentialsResponse), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(GetCredentialsResponse), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Gets credentials",
         Description = "Gets all credentials for a client"
     )]
-    public async Task<ActionResult<IEnumerable<GetCredentialsResponse>>> GetCredentials([FromRoute] Guid clientId)
+    public async Task<ActionResult<GetCredentialsResponse>> GetCredentials([FromRoute] Guid clientId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
         {
@@ -66,10 +66,12 @@ public class CredentialController(
 
         var queryResult = await mediator.Send(new GetCredentialsQuery(clientId, identityDescriptor.OrganizationId));
 
-        var response = queryResult.Select(credential => new GetCredentialsResponse(credential.Hint, credential.KeyId,
+        var items = queryResult.Select(credential => new GetCredentialsResponseItem(
+            credential.Hint,
+            credential.KeyId,
             credential.StartDateTime, credential.EndDateTime)).ToList();
 
-        return Ok(response);
+        return Ok(new GetCredentialsResponse(items));
     }
 
     [HttpDelete]

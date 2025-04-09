@@ -130,7 +130,8 @@ public record CreateCredentialResponse(
     DateTimeOffset? EndDateTime,
     string? Secret);
 
-public record GetCredentialsResponse(
+public record GetCredentialsResponse(IEnumerable<GetCredentialsResponseItem> Result);
+public record GetCredentialsResponseItem(
     string? Hint,
     Guid KeyId,
     DateTimeOffset? StartDateTime,
