@@ -32,7 +32,7 @@ public class CredentialController(
         Summary = "Create credential",
         Description = "Creates a single credential for a client"
     )]
-    public async Task<ActionResult> CreateCredential([FromRoute] Guid clientId)
+    public async Task<ActionResult<CreateCredentialResponse>> CreateCredential([FromRoute] Guid clientId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
         {
@@ -57,7 +57,7 @@ public class CredentialController(
         Summary = "Gets credentials",
         Description = "Gets all credentials for a client"
     )]
-    public async Task<ActionResult> GetCredentials([FromRoute] Guid clientId)
+    public async Task<ActionResult<IEnumerable<GetCredentialsResponse>>> GetCredentials([FromRoute] Guid clientId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
         {
@@ -82,7 +82,7 @@ public class CredentialController(
         Summary = "Deletes credential",
         Description = "Deletes a single credential for a client"
     )]
-    public async Task<ActionResult> DeleteCredential([FromRoute] Guid clientId, [FromRoute] Guid keyId)
+    public async Task<ActionResult<IEnumerable<GetCredentialsResponse>>> DeleteCredential([FromRoute] Guid clientId, [FromRoute] Guid keyId)
     {
         if (!accessDescriptor.IsExternalClientAuthorized())
         {
