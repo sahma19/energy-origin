@@ -25,9 +25,9 @@ public class CredentialController(
 {
     [HttpPost]
     [ProducesResponseType(typeof(CreateCredentialResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ValidationProblemDetails),  StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ValidationProblemDetails),  StatusCodes.Status403Forbidden)]
-    [ProducesResponseType(typeof(ValidationProblemDetails),  StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Create credential",
         Description = "Creates a single credential for a client"
@@ -50,8 +50,8 @@ public class CredentialController(
 
     [HttpGet]
     [ProducesResponseType(typeof(GetCredentialsResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ValidationProblemDetails),  StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(typeof(ValidationProblemDetails),  StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status403Forbidden)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Gets credentials",
