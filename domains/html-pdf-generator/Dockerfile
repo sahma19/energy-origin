@@ -1,4 +1,4 @@
-FROM cgr.dev/chainguard/wolfi-base:latest AS build
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:b72df108f3388c82b0638bcfbad1511d85c60593e67fb8f8a968255f7e0588df AS build
 
 RUN apk add --no-cache \
     nodejs-24 \
@@ -26,7 +26,7 @@ RUN rm -f /runtime-root/usr/bin/busybox && \
                /runtime-root/usr/share/npm \
                /runtime-root/usr/lib/node_modules/npm
 
-FROM cgr.dev/chainguard/glibc-dynamic:latest AS final
+FROM cgr.dev/chainguard/glibc-dynamic:latest@sha256:1157181f2a95aeb22cb2273f0ea8e4ba88dfc493e17513f26376af9555e37261 AS final
 
 COPY --from=build /runtime-root/usr /usr
 COPY --from=build /lib /lib

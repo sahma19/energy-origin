@@ -81,3 +81,298 @@ updates:
       dependencies:
         patterns: [ "*" ]
     open-pull-requests-limit: 1
+
+  - package-ecosystem: docker
+    directory: /.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/admin-portal/AdminPortal.Web/AdminPortal.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/admin-portal/AdminPortal.Web/AdminPortal
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/authorization/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/authorization/Authorization.API/API.IntegrationTests/API.IntegrationTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/authorization/Authorization.API/API.UnitTests/API.UnitTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/authorization/Authorization.API/API
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/authorization/Proxy.IntegrationTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/authorization/Proxy
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/authorization/Testing
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/certificates/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Query.API/API.IntegrationTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Query.API/API.UnitTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Query.API/API
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Shared/Contracts
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Shared/DataContext
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Shared/MeasurementEvents
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/certificates/Shared/ProjectOriginClients
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/html-pdf-generator
+    schedule:
+      interval: daily
+
+  - package-ecosystem: npm
+    directory: /domains/html-pdf-generator
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/libraries/EnergyOrigin.ActivityLog/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.ActivityLog/EnergyOrigin.ActivityLog.Unit.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.ActivityLog/EnergyOrigin.ActivityLog
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.Datahub3/EnergyOrigin.Datahub3
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.DatahubFacade/EnergyOrigin.DatahubFacade.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.DatahubFacade/EnergyOrigin.DatahubFacade
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.Domain/EnergyOrigin.Domain.ValueObjects.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.Domain/EnergyOrigin.Domain.ValueObjects
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/libraries/EnergyOrigin.IntegrationEvents/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.IntegrationEvents/EnergyOrigin.IntegrationEvents.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.IntegrationEvents/EnergyOrigin.IntegrationEvents
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.Setup/EnergyOrigin.Setup.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.Setup/EnergyOrigin.Setup
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/libraries/EnergyOrigin.TokenValidation/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.TokenValidation/EnergyOrigin.TokenValidation.Unit.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyOrigin.TokenValidation/EnergyOrigin.TokenValidation
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/EnergyTrackAndTrace.Testing
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/ProjectOrigin/EnergyOrigin.WalletClient.Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/libraries/ProjectOrigin/EnergyOrigin.WalletClient
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/measurements/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/measurements/DataHubFacadeClients
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/measurements/Measurements.API/API
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/measurements/Measurements.API/Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/oidc-mock/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/oidc-mock/API/Mock
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/oidc-mock/API/Tests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/redoc
+    schedule:
+      interval: daily
+
+  - package-ecosystem: docker
+    directory: /domains/transfer/.devcontainer
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/ClaimAutomation/Worker.IntegrationTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/ClaimAutomation/Worker.UnitTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/ClaimAutomation/Worker
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/Shared/DataContext
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/Shared/Testing
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/Transfer.API/API.IntegrationTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/Transfer.API/API.UnitTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/Transfer.API/API
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/TransferAgreementAutomation/Worker.IntegrationTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/TransferAgreementAutomation/Worker.UnitTests
+    schedule:
+      interval: daily
+
+  - package-ecosystem: nuget
+    directory: /domains/transfer/TransferAgreementAutomation/Worker
+    schedule:
+      interval: daily

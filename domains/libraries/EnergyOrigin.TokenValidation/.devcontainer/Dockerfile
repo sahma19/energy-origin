@@ -1,1 +1,1 @@
-FROM mcr.microsoft.com/vscode/devcontainers/dotnet:7.0-bullseye
+FROM mcr.microsoft.com/vscode/devcontainers/dotnet:7.0-bullseye@sha256:2bc7848566b9066056d13468b1c86263d23b99583e1ab76e2422d6b43b9603d6

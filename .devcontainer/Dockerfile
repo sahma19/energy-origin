@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04
+FROM mcr.microsoft.com/vscode/devcontainers/base:ubuntu-24.04@sha256:601ef3f088ffd5ca63aee990a46712478d14dbf8927076d3118775a7b3fd813d
 
 RUN apt update && apt install -y curl gpg
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg;
